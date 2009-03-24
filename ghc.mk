@@ -14,6 +14,12 @@ $(INPLACE_LIB)/html:
 	$(RM) -rf $@
 	$(CP) -R utils/haddock/html $@
 
+install: install_utils/haddock_html
+.PHONY: install_utils/haddock_html
+install_utils/haddock_html:
+	$(RM) -rf $(DESTDIR)$(datadir)/html
+	$(CP) -R utils/haddock/html $(DESTDIR)$(datadir)/html
+
 $(eval $(call build-prog,utils/haddock,dist,2))
 
 utils/haddock_dist_MODULES += Paths_haddock
