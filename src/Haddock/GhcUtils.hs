@@ -27,12 +27,14 @@ import Distribution.Compat.ReadP
 import Distribution.Text
 #endif
 
-import HsSyn
-import SrcLoc
 import Outputable
 import Name
 import Packages
 import Module
+import RdrName (GlobalRdrEnv)
+import HscTypes
+import LazyUniqFM
+import GHC
 
 
 moduleString :: Module -> String
@@ -71,6 +73,13 @@ unpackPackageId p
 
 mkModuleNoPackage :: String -> Module
 mkModuleNoPackage str = mkModule (stringToPackageId "") (mkModuleName str)
+
+
+lookupLoadedHomeModuleGRE  :: GhcMonad m => ModuleName -> m (Maybe GlobalRdrEnv)
+lookupLoadedHomeModuleGRE mod_name = withSession $ \hsc_env ->
+  case lookupUFM (hsc_HPT hsc_env) mod_name of
+    Just mod_info      -> return (mi_globals (hm_iface mod_info))
+    _not_a_home_module -> return Nothing
 
 
 instance (Outputable a, Outputable b) => Outputable (Map.Map a b) where
