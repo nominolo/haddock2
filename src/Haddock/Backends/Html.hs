@@ -1606,7 +1606,7 @@ ppr_mono_ty _         (HsSpliceTy _)      _ = error "ppr_mono_ty HsSpliceTy"
 ppr_mono_ty _         (HsSpliceTyOut _)   _ = error "ppr_mono_ty HsSpliceTyOut"
 #if __GLASGOW_HASKELL__ >= 611
 ppr_mono_ty _         (HsRecTy _)         _ = error "ppr_mono_ty HsRecTy"
-#endif
+
 
 ppr_mono_ty ctxt_prec (HsAppTy fun_ty arg_ty) unicode 
   = maybeParen ctxt_prec pREC_CON $
