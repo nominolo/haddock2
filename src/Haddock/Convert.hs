@@ -10,7 +10,7 @@ module Haddock.Convert where
 import HsSyn
 import TcType ( tcSplitSigmaTy )
 import TypeRep
-import Type ( splitKindFunTys )
+import Coercion ( splitKindFunTys )
 import Name
 import Var
 import Class
