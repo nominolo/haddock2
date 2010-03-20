@@ -23,3 +23,6 @@ You can
   runhaskell runtests.hs all
 
 to continue despite a failing test.
+
+You can pass extra options to haddock like so
+  runhaskell runtests.hs --xhtml all
