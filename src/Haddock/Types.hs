@@ -279,8 +279,17 @@ data Doc id
   | DocURL String
   | DocPic String
   | DocAName String
+  | DocExamples [Example]
   deriving (Eq, Show, Functor)
 
+data Example = Example { exampleExpression :: String
+                       , exampleResult     :: [String]
+                       }
+                       deriving (Eq, Show)
+
+exampleToString :: Example -> String
+exampleToString (Example expression result) =
+    "ghci> " ++ expression ++ "\n" ++  unlines result
 
 #ifdef TEST
 -- TODO: use derive
@@ -322,7 +331,8 @@ data DocMarkup id a = Markup {
   markupCodeBlock     :: a -> a,
   markupURL           :: String -> a,
   markupAName         :: String -> a,
-  markupPic           :: String -> a
+  markupPic           :: String -> a,
+  markupExample       :: [Example] -> a
 }
 
 

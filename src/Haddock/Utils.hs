@@ -359,6 +359,7 @@ markup m (DocCodeBlock d)      = markupCodeBlock m (markup m d)
 markup m (DocURL url)          = markupURL m url
 markup m (DocAName ref)        = markupAName m ref
 markup m (DocPic img)          = markupPic m img
+markup m (DocExamples e)       = markupExample m e
 
 
 markupPair :: DocMarkup id a -> (Doc id, Doc id) -> (a, a)
@@ -382,7 +383,8 @@ idMarkup = Markup {
   markupCodeBlock     = DocCodeBlock,
   markupURL           = DocURL,
   markupAName         = DocAName,
-  markupPic           = DocPic
+  markupPic           = DocPic,
+  markupExample       = DocExamples
   }
 
 

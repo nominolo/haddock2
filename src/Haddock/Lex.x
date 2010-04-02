@@ -45,6 +45,7 @@ $ident    = [$alphanum \'\_\.\!\#\$\%\&\*\+\/\<\=\>\?\@\\\\\^\|\-\~\:]
 <0,para> {
  $ws* \n		;
  $ws* \>		{ begin birdtrack }
+ $ws* ghci \>	        { strtoken TokExamplePrompt `andBegin` exampleexpr }
  $ws* [\*\-]		{ token TokBullet `andBegin` string }
  $ws* \[		{ token TokDefStart `andBegin` def }
  $ws* \( $digit+ \) 	{ token TokNumber `andBegin` string }
@@ -66,6 +67,16 @@ $ident    = [$alphanum \'\_\.\!\#\$\%\&\*\+\/\<\=\>\?\@\\\\\^\|\-\~\:]
 }
 
 <birdtrack> .*	\n?	{ strtokenNL TokBirdTrack `andBegin` line }
+
+<example> {
+  $ws*	\n		{ token TokPara `andBegin` para }
+  $ws* ghci \>	        { strtoken TokExamplePrompt `andBegin` exampleexpr }
+  ()			{ begin exampleresult }
+}
+
+<exampleexpr> .* \n	{ strtokenNL TokExampleExpression `andBegin` example }
+
+<exampleresult> .* \n	{ strtokenNL TokExampleResult `andBegin` example }
 
 <string,def> {
   $special			{ strtoken $ \s -> TokSpecial (head s) }
@@ -109,6 +120,9 @@ data Token
   | TokEmphasis String
   | TokAName String
   | TokBirdTrack String
+  | TokExamplePrompt String
+  | TokExampleExpression String
+  | TokExampleResult String
 --  deriving Show
 
 -- -----------------------------------------------------------------------------
