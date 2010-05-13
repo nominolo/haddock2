@@ -68,6 +68,7 @@ handleTopExceptions :: IO a -> IO a
 handleTopExceptions =
   handleNormalExceptions . handleHaddockExceptions . handleGhcExceptions
 
+
 -- | Either returns normally or throws an ExitCode exception;
 -- all other exceptions are turned into exit exceptions.
 handleNormalExceptions :: IO a -> IO a
@@ -330,6 +331,7 @@ withGhc libDir flags ghcActs = do
 -- Misc
 -------------------------------------------------------------------------------
 
+
 getHaddockLibDir :: [Flag] -> IO String
 getHaddockLibDir flags =
   case [str | Flag_Lib str <- flags] of
@@ -340,6 +342,7 @@ getHaddockLibDir flags =
       getDataDir -- provided by Cabal
 #endif
     fs -> return (last fs)
+
 
 getGhcLibDir :: [Flag] -> IO String
 getGhcLibDir flags =
@@ -420,6 +423,7 @@ getInTreeLibDir =
              Just d -> return (d </> "..")
 #endif
 
+
 getExecDir :: IO (Maybe String)
 #if defined(mingw32_HOST_OS)
 getExecDir = allocaArray len $ \buf -> do
@@ -429,6 +433,7 @@ getExecDir = allocaArray len $ \buf -> do
         else do s <- peekCString buf
                 return (Just (dropFileName s))
   where len = 2048 -- Plenty, PATH_MAX is 512 under Win32.
+
 
 foreign import stdcall unsafe "GetModuleFileNameA"
   getModuleFileName :: Ptr () -> CString -> Int -> IO Int32
