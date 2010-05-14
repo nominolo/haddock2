@@ -166,12 +166,7 @@ main = handleTopExceptions $ do
       renderStep packages []
 
 
--------------------------------------------------------------------------------
--- Rendering
--------------------------------------------------------------------------------
-
-
--- | Render the interfaces with whatever backend is specified in the flags
+-- | Render the interfaces with whatever backend is specified in the flags.
 render :: [Flag] -> [Interface] -> [InstalledInterface] -> IO ()
 render flags ifaces installedIfaces = do
   let
@@ -294,6 +289,7 @@ dumpInterfaceFile ifaces homeLinks flags =
 -------------------------------------------------------------------------------
 -- Creating a GHC session
 -------------------------------------------------------------------------------
+
 
 -- | Start a GHC session with the -haddock flag set. Also turn off
 -- compilation and linking. Then run the given 'Ghc' action.
