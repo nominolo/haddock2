@@ -92,6 +92,7 @@ data Flag
   | Flag_PrintGhcLibDir
   | Flag_NoWarnings
   | Flag_UseUnicode
+  | Flag_NoTmpCompDir
   deriving (Eq)
 
 
@@ -162,5 +163,7 @@ options backwardsCompat =
 	"output GHC version in numeric format",
     Option []  ["print-ghc-libdir"]  (NoArg Flag_PrintGhcLibDir)
 	"output GHC lib dir",
-    Option ['w'] ["no-warnings"] (NoArg Flag_NoWarnings) "turn off all warnings"
+    Option ['w'] ["no-warnings"] (NoArg Flag_NoWarnings) "turn off all warnings",
+    Option [] ["no-tmp-comp-dir"] (NoArg Flag_NoTmpCompDir)
+        "don't re-direct compilation output to a temporary directory"
    ]
