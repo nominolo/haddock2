@@ -182,7 +182,7 @@ render flags ifaces installedIfaces = do
 
     visibleIfaces    = [ i | i <- ifaces, OptHide `notElem` ifaceOptions i ]
 
-    -- *All* visible interfaces including external package modules.
+    -- /All/ visible interfaces including external package modules.
     allIfaces        = map toInstalledIface ifaces ++ installedIfaces
     allVisibleIfaces = [ i | i <- allIfaces, OptHide `notElem` instOptions i ]
 
