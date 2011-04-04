@@ -409,17 +409,14 @@ getInTreeLibDir =
 
 getExecDir :: IO (Maybe String)
 #if defined(mingw32_HOST_OS)
-getExecDir = allocaArray len $ \buf -> do
-    ret <- getModuleFileName nullPtr buf len
-    if ret == 0
-        then return Nothing
-        else do s <- peekCString buf
-                return (Just (dropFileName s))
-  where len = 2048 -- Plenty, PATH_MAX is 512 under Win32.
-
-
-foreign import stdcall unsafe "GetModuleFileNameA"
-  getModuleFileName :: Ptr () -> CString -> Int -> IO Int32
+getExecDir = try_size 2048 -- plenty, PATH_MAX is 512 under Win32.
+  where
+    try_size size = allocaArray size $ \buf -> do
+        ret <- c_GetModuleFileName nullPtr buf size
+        case ret of
+          0 -> return Nothing
+          _ | ret < size -> fmap (Just . dropFileName) $ peekCWString buf
+            | otherwise  -> try_size (size * 2)
 #else
 getExecDir = return Nothing
 #endif
